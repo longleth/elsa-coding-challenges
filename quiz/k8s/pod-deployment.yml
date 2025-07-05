@@ -1,0 +1,31 @@
+#########################################################
+# Deployments, Replica Sets and Pods on K8S environment #
+#########################################################
+
+apiVersion:                   apps/v1
+kind:                         Deployment
+
+metadata:
+  name:                       user-score-deploy-pod
+
+spec:
+  selector:
+    matchLabels:
+      # Replica Set
+      app:                    user-score-pod
+
+  replicas:                   2
+
+  # auto-generated pods using pod definition in this template
+  template:
+    metadata:
+      labels:
+        # auto-generated pods names
+        app:                  user-score-pod
+
+    spec:
+      containers:
+        - name:               user-score
+          image:              longlethanh/user-score:0.0.1-SNAPSHOT
+          ports:
+            - containerPort:  8888

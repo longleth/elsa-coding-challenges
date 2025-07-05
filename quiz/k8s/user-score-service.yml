@@ -1,0 +1,20 @@
+######################################################################
+#       Global SERVICE exposed to outside via K8S Master Node        #
+#     kubectl port-forward service/user-score-service 7088:8888      #
+######################################################################
+
+apiVersion:       v1
+kind:             Service
+
+metadata:
+  name:           user-score-service
+
+spec:
+  selector:
+    app:          user-score-pod
+
+  type:           NodePort
+
+  ports:
+    - port:       8888
+      targetPort: 8888
