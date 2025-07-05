@@ -4,6 +4,7 @@ import com.asle.quiz.config.RequestBuffer;
 import com.asle.quiz.domain.JoinRequest;
 import com.asle.quiz.domain.UserSubmission;
 import com.asle.quiz.service.QuizService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,7 @@ public class QuizController {
     }
 
     @PostMapping("/join")
-    public ResponseEntity<Void> joinQuiz(@RequestBody JoinRequest request) {
+    public ResponseEntity<Void> joinQuiz(@Valid @RequestBody JoinRequest request) {
 
         String quizId = request.getQuizId();
         String userId = request.getUserId();
@@ -36,7 +37,7 @@ public class QuizController {
     }
 
     @PostMapping("/submit")
-    public ResponseEntity<Void> submitAnswer(@RequestBody UserSubmission request) {
+    public ResponseEntity<Void> submitAnswer(@Valid @RequestBody UserSubmission request) {
 
         boolean accepted = buffer.offer(request);
         if (accepted) {
