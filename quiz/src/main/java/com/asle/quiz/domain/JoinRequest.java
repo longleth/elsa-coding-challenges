@@ -9,6 +9,11 @@ public class JoinRequest {
     @NotBlank(message = "quizId is mandatory")
     private String quizId;
 
+    public JoinRequest(String userId, String quizId) {
+        this.userId = userId;
+        this.quizId = quizId;
+    }
+
     public String getUserId() {
         return userId;
     }
