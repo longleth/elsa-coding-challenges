@@ -1,6 +1,93 @@
 # elsa-coding-challenges
 
-# How to deploy on local Kubernetes cluster
+# HOW TO START SERVICE ON LOCAL DEV ENVIRONMENT
+
+# Prerequisites
+
+- JDK: 17.x.x
+- Maven
+- Redis Cache Server
+    Host: localhost
+    Port: 6379 (Default)
+
+- Database import - NOT REQUIRED due to using H2 on local dev env (Ideally will be replaced by MySQL in future)
+- Due to real-time data requirement, the current solution temporarily uses Redis Cache
+with DEFAULT Redis server configuration.
+
+# Local startup
+
+Navigate to your project directory on local (pulled from GitHub repository)
+
+> mvn clean install
+> java -jar target/quiz-0.0.1-SNAPSHOT.jar
+>
+
+# ENDPOINT TEST USING POSTMAN
+
+Test data located at: /quiz/src/main/resources/elsa.quiz.json
+
+Authentication: NO
+
+POST: http://localhost:8080/api/quiz/join
+JSON Request Body:
+    {
+        "quizId": "686923eb6af25b779321f0f6",
+        "userId": "user_1"
+    }
+Response: OK
+
+POST: http://localhost:8080/api/quiz/submit
+JSON Body:
+    {
+        "quizId": "686923eb6af25b779321f0f6",
+        "userId": "user_1",
+        "questionId": "question_1",
+        "answer": "A"
+    }
+Response: OK
+
+GET: http://localhost:8080/api/quiz/leaderboard/686923eb6af25b779321f0f6
+Response: OK
+Response JSON Body:
+    [
+        {
+            "value": "user_7",
+            "score": 3.0
+        },
+        {
+            "value": "user_2",
+            "score": 3.0
+        },
+        {
+            "value": "user_1",
+            "score": 3.0
+        },
+        {
+            "value": "user_4",
+            "score": 2.0
+        },
+        {
+            "value": "user_8",
+            "score": 1.0
+        },
+        {
+            "value": "user_6",
+            "score": 1.0
+        },
+        {
+            "value": "user_5",
+            "score": 1.0
+        },
+        {
+            "value": "user_3",
+            "score": 1.0
+        }
+    ]
+
+
+# ----------------------------------------- #
+# How to deploy on local Kubernetes cluster #
+# ----------------------------------------- #
 
 # Maven:
 PS D:\...\quiz> mvn clean install
