@@ -15,7 +15,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/quiz")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173"})
 public class QuizController {
 
     private final QuizService quizService;
@@ -50,6 +50,7 @@ public class QuizController {
     }
 
     @GetMapping("/leaderboard/{quizId}")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<Set<ZSetOperations.TypedTuple<Object>>> getLeaderboard(
             @PathVariable String quizId) {
 
