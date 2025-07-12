@@ -98,6 +98,10 @@ PS D:\...\quiz> mvn clean install
         - zipkin
         - prometheus
         - grafana
+    > docker pull bitnami/zipkin
+    > docker pull bitnami/prometheus
+    > docker run -d -p 9411:9411 --name elsa-zipkin --network elsa-vpn bitnami/zipkin:latest
+    > docker run -d -p 9090:9090 --name elsa-prometheus --network elsa-vpn bitnami/prometheus:latest
 
 # Docker:
 PS D:\...\quiz> docker build -t longlethanh/user-score:0.0.1-SNAPSHOT .

@@ -5,6 +5,8 @@ import com.asle.quiz.domain.UserScore;
 import com.asle.quiz.domain.UserSubmission;
 import com.asle.quiz.repository.UserScoreRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,8 @@ import java.util.Set;
 
 @Service
 public class QuizService {
+
+    private static final Logger log = LoggerFactory.getLogger(QuizService.class);
 
     private final UserScoreRepository userScoreRepository;
 
@@ -29,6 +33,7 @@ public class QuizService {
 
     public void joinQuiz(String quizId, String userId) {
 
+        log.info("User [{}] joined quiz [{}]", userId, quizId);
         // Logic to add user to quiz session
         cacheService.add("quiz:" + quizId + ":participants", userId);
     }
@@ -39,6 +44,10 @@ public class QuizService {
                 submission.getQuizId(),
                 submission.getQuestionId(),
                 submission.getAnswer());
+
+        log.info("User submission [quizId: {}, questionId: {}, answer: {}]",
+                submission.getQuizId(), submission.getQuestionId(), submission.getAnswer());
+
         if (isCorrect) {
             updateScore(submission.getUserId(), submission.getQuizId());
         }
@@ -59,11 +68,14 @@ public class QuizService {
         userScore.setScore(userScore.getScore() + 1);
         userScoreRepository.save(userScore);
 
+        log.info("Update user score [{}] of quiz [{}]: -> score [{}]", userId, quizId, userScore.getScore());
+
         cacheService.incrementScore("leaderboard:" + quizId, userId, 1);
     }
 
     public Set<ZSetOperations.TypedTuple<Object>> getLeaderboard(String quizId) {
 
+        log.info("Loading leader board of quiz [{}]", quizId);
         return cacheService.reverseRangeWithScores("leaderboard:" + quizId, 0, 10);
     }
 }
