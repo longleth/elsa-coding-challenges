@@ -103,6 +103,13 @@ PS D:\...\quiz> mvn clean install
 PS D:\...\quiz> docker build -t longlethanh/user-score:0.0.1-SNAPSHOT .
 PS D:\...\quiz> docker push longlethanh/user-score:0.0.1-SNAPSHOT
 
+> docker network create elsa-vpn
+> docker run -d -p 8080:8080 --name elsa-user-score --network elsa-vpn longlethanh/user-score:0.0.1-SNAPSHOT
+> docker run -d --name elsa-redis --network elsa-vpn -p 6379:6379 redis/redis-stack:latest
+> docker network inspect elsa-vpn
+
+![img.png](containers.png)
+
 # Kubernetes:
 PS D:\...\quiz> cd k8s
 PS D:\...\quiz\k8s> minikube start

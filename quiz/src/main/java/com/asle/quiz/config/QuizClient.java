@@ -13,7 +13,8 @@ public class QuizClient {
 
     public QuizClient() {
         this.webClient = WebClient.builder()
-                .baseUrl("http://localhost:8081/api/quiz")
+                //.baseUrl("http://localhost:8081/api/quiz")
+                .baseUrl("http://elsa-quiz:8081/api/quiz")
                 .build();
     }
 
